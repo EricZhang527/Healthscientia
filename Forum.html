@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            /* CSS for the menu */
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #0c6f9d;
+            }
+          
+            li {
+              float: left;
+            }
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px 50px;
+                text-decoration: none;
+            }
+            li a:hover {
+                background-color: #8ce3e6;
+            }
+            
+
+    
+    </style>
+    <header>
+		<div class="wrapper">
+			<nav>
+				<ul id="menu">
+					<li><a href="web.html"><span>H</span>ome</a></li>
+					<li id="menu_active"><a href="about.html"><span>A</span>bout</a></li>
+					<li><a href="Services.html"><span>S</span>ervices</a></li>
+					<li><a href="Forum.html"><span>F</span>orum</a></li>
+					<li><a href="Contacts.html"><span>C</span>ontacts</a></li>
+				</ul>
+			</nav>
+		</div>
+    <title>Education</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<head>
+    <title>Health Sciences frontiers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #new-post {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1a7aa6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(100,200,150);
+        }
+
+        #posts {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .post h3 {
+            color: #4CAF50;
+        }
+
+        .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="new-post">
+        <h3>Create a New Post</h3>
+        <input type="text" id="post-title" placeholder="Enter post title">
+        <textarea id="post-content" placeholder="Enter post content"></textarea>
+        <button onclick="createPost()">Submit</button>
+    </div>
+
+    <div id="posts">
+        <!-- Display posts and comments dynamically here -->
+    </div>
+
+    <script>
+        let posts = []; // Array to store posts
+
+        function createPost() {
+            let title = document.getElementById('post-title').value;
+            let content = document.getElementById('post-content').value;
+            let newPost = {
+                title: title,
+                content: content,
+                comments: []
+            };
+            posts.push(newPost);
+            displayPosts();
+        }
+
+        function displayPosts() {
+            let postsContainer = document.getElementById('posts');
+            postsContainer.innerHTML = ''; // Clear existing content
+            posts.forEach((post, index) => {
+                let postElement = document.createElement('div');
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p>${post.content}</p>
+                    <input type="text" id="comment-${index}" placeholder="Enter your comment">
+                    <button onclick="addComment(${index})">Add Comment</button>
+                    <div id="comments-${index}"></div>
+                `;
+                postsContainer.appendChild(postElement);
+                displayComments(post.comments, index);
+            });
+        }
+
+        function addComment(postIndex) {
+            let commentInput = document.getElementById(`comment-${postIndex}`);
+            let commentContent = commentInput.value;
+            if (commentContent) {
+                posts[postIndex].comments.push(commentContent);
+                commentInput.value = '';
+                displayComments(posts[postIndex].comments, postIndex);
+            }
+        }
+
+        function displayComments(comments, postIndex) {
+            let commentsContainer = document.getElementById(`comments-${postIndex}`);
+            commentsContainer.innerHTML = ''; // Clear existing comments
+            comments.forEach((comment) => {
+                let commentElement = document.createElement('div');
+                commentElement.innerHTML = `<p>${comment}</p>`;
+                commentsContainer.appendChild(commentElement);
+            });
+        }
+
+        // Initial Display of Posts
+        displayPosts();
+    </script>
+    <form action="/submit" method="post">
+        <input type="text" name="user_input">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
